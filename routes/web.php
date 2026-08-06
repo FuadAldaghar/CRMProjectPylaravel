@@ -59,7 +59,7 @@ Route::prefix('admin')->middleware(['auth', 'locale'])->group(function (): void 
 
     // Language Switch
     Route::get('/lang-switch/{lang}', function ($lang) {
-        $supportedLocales = ['en', 'es'];
+        $supportedLocales = ['en', 'es', 'ar']; // Add your supported locales here
 
         if (in_array($lang, $supportedLocales)) {
             session(['locale' => $lang]);

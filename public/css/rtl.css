@@ -1,0 +1,16 @@
+body {
+    direction: rtl;
+    text-align: right;
+}
+
+.main-sidebar {
+    right: 0;
+    left: auto;
+}
+
+.content-wrapper,
+.main-footer,
+.main-header {
+    margin-right: 250px;
+    margin-left: 0;
+}
