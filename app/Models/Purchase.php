@@ -45,12 +45,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Purchase whereUserId($value)
  * @mixin \Eloquent
  */
+// app/Models/Purchase.php
 class Purchase extends Model
 {
-    use HasFactory;
-    use PurchaseScopes;
-
     protected $fillable = [
+        'branch_id',
         'supplier_id',
         'user_id',
         'purchase_date',
@@ -59,27 +58,66 @@ class Purchase extends Model
         'notes',
     ];
 
-    protected function casts(): array
+    protected $casts = [
+        'purchase_date' => 'date',
+    ];
+
+    public function branch()
     {
-        return [
-            'total_amount' => 'decimal:2',
-            'purchase_date' => 'date',
-        ];
+        return $this->belongsTo(Branch::class);
     }
 
-    // Relationships
-    public function user(): BelongsTo
+    public function supplier()
     {
-        return $this->belongsTo(related: User::class, foreignKey: 'user_id');
+        return $this->belongsTo(Supplier::class);
     }
 
-    public function supplier(): BelongsTo
+    public function user()
     {
-        return $this->belongsTo(related: Supplier::class, foreignKey: 'supplier_id');
+        return $this->belongsTo(User::class);
     }
 
-    public function items(): HasMany
+    public function items()
     {
-        return $this->hasMany(related: PurchaseItem::class, foreignKey: 'purchase_id');
+        return $this->hasMany(PurchaseItem::class);
     }
 }
+
+// class Purchase extends Model
+// {
+//     use HasFactory;
+//     use PurchaseScopes;
+// 
+//     protected $fillable = [
+//         'supplier_id',
+//         'user_id',
+//         'purchase_date',
+//         'total_amount',
+//         'status',
+//         'notes',
+//     ];
+// 
+//     protected function casts(): array
+//     {
+//         return [
+//             'total_amount' => 'decimal:2',
+//             'purchase_date' => 'date',
+//         ];
+//     }
+// 
+//     // Relationships
+//     public function user(): BelongsTo
+//     {
+//         return $this->belongsTo(related: User::class, foreignKey: 'user_id');
+//     }
+// 
+//     public function supplier(): BelongsTo
+//     {
+//         return $this->belongsTo(related: Supplier::class, foreignKey: 'supplier_id');
+//     }
+// 
+//     public function items(): HasMany
+//     {
+//         return $this->hasMany(related: PurchaseItem::class, foreignKey: 'purchase_id');
+//     }
+// }

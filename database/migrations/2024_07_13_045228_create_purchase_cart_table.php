@@ -13,10 +13,25 @@ class CreatePurchaseCartTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
+            $table->decimal('purchase_price',10,2);
             $table->timestamps();
         });
     }
-
+// 
+//     public function up(): void
+// {
+//     Schema::create('purchase_cart', function (Blueprint $table) {
+//         $table->id();
+// 
+//         $table->foreignId('supplier_id')->constrained();
+//         $table->foreignId('product_id')->constrained();
+// 
+//         $table->integer('quantity');
+//         $table->decimal('purchase_price',10,2);
+// 
+//         $table->timestamps();
+//     });
+//}
     public function down(): void
     {
         Schema::dropIfExists('purchase_cart');

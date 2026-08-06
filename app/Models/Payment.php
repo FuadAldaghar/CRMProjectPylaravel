@@ -27,30 +27,55 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Payment whereUserId($value)
  * @mixin \Eloquent
  */
+
 class Payment extends Model
 {
     protected $fillable = [
-        'amount',
+        'branch_id',
         'order_id',
         'user_id',
+        'amount',
     ];
 
-    protected $casts = [
-        'amount' => 'decimal:2',
-    ];
-
-    public function order(): BelongsTo
+    public function branch()
     {
-        return $this->belongsTo(Order::class, 'order_id', 'id');
+        return $this->belongsTo(Branch::class);
     }
 
-    public function user(): BelongsTo
+    public function order()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(Order::class);
     }
 
-    public function formattedAmount(): string
+    public function user()
     {
-        return number_format((float) $this->amount, 2);
+        return $this->belongsTo(User::class);
     }
 }
+// class Payment extends Model
+// {
+//     protected $fillable = [
+//         'amount',
+//         'order_id',
+//         'user_id',
+//     ];
+// 
+//     protected $casts = [
+//         'amount' => 'decimal:2',
+//     ];
+// 
+//     public function order(): BelongsTo
+//     {
+//         return $this->belongsTo(Order::class, 'order_id', 'id');
+//     }
+// 
+//     public function user(): BelongsTo
+//     {
+//         return $this->belongsTo(User::class, 'user_id', 'id');
+//     }
+// 
+//     public function formattedAmount(): string
+//     {
+//         return number_format((float) $this->amount, 2);
+//     }
+// }

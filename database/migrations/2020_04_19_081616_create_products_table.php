@@ -9,20 +9,38 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('products', function (Blueprint $table): void {
-            $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('image')->nullable();
-            $table->string('barcode')->unique();
-            $table->decimal('price', 8, 2);
-            $table->boolean('status')->default(true);
-            $table->timestamps();
-        });
-    }
+    // public function up(): void
+    // {
+    //     Schema::create('products', function (Blueprint $table): void {
+    //         $table->id();
+    //         $table->string('name');
+    //         $table->text('description')->nullable();
+    //         $table->string('image')->nullable();
+    //         $table->string('barcode')->unique();
+    //         $table->decimal('price', 8, 2);
+    //         $table->boolean('status')->default(true);
+    //         $table->timestamps();
+    //     });
+    // }
 
+    public function up(): void
+{
+    Schema::create('products', function (Blueprint $table) {
+        $table->id();
+
+        $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
+
+        $table->string('name');
+        $table->string('barcode')->nullable();
+        $table->text('description')->nullable();
+        $table->string('image')->nullable();
+        $table->decimal('purchase_price',10,2);
+        $table->decimal('selling_price',10,2);
+        $table->integer('quantity')->default(0);
+        $table->boolean('status')->default(true);
+        $table->timestamps();
+    });
+}
     /**
      * Reverse the migrations.
      */

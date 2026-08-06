@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseItem whereUpdatedAt($value)
  * @mixin \Eloquent
  */
+// app/Models/PurchaseItem.php
 class PurchaseItem extends Model
 {
     protected $fillable = [
@@ -37,26 +38,45 @@ class PurchaseItem extends Model
         'purchase_price',
     ];
 
-    protected function casts(): array
+    public function purchase()
     {
-        return [
-            'quantity' => 'integer',
-            'purchase_price' => 'decimal:2'
-        ];
+        return $this->belongsTo(Purchase::class);
     }
 
-    public function product(): BelongsTo
+    public function product()
     {
-        return $this->belongsTo(related: Product::class, foreignKey: 'product_id');
-    }
-
-    public function purchase(): BelongsTo
-    {
-        return $this->belongsTo(related: Purchase::class, foreignKey: 'purchase_id');
-    }
-
-    public function getSubtotalAttribute(): float
-    {
-        return (float)($this->quantity * $this->purchase_price);
+        return $this->belongsTo(Product::class);
     }
 }
+// class PurchaseItem extends Model
+// {
+//     protected $fillable = [
+//         'purchase_id',
+//         'product_id',
+//         'quantity',
+//         'purchase_price',
+//     ];
+// 
+//     protected function casts(): array
+//     {
+//         return [
+//             'quantity' => 'integer',
+//             'purchase_price' => 'decimal:2'
+//         ];
+//     }
+// 
+//     public function product(): BelongsTo
+//     {
+//         return $this->belongsTo(related: Product::class, foreignKey: 'product_id');
+//     }
+// 
+//     public function purchase(): BelongsTo
+//     {
+//         return $this->belongsTo(related: Purchase::class, foreignKey: 'purchase_id');
+//     }
+// 
+//     public function getSubtotalAttribute(): float
+//     {
+//         return (float)($this->quantity * $this->purchase_price);
+//     }
+// }

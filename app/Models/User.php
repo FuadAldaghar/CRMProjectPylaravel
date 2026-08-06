@@ -48,65 +48,62 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|User whereUpdatedAt($value)
  * @mixin \Eloquent
  */
+// app/Models/User.php
+
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
+        'branch_id',
         'first_name',
         'last_name',
         'email',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    public function cart()
+    public function branch()
     {
-        return $this->belongsToMany(related: Product::class, table: 'user_cart')->withPivot('quantity');
+        return $this->belongsTo(Branch::class);
     }
 
-    public function purchase(): HasMany
+    public function customers()
     {
-        return $this->hasMany(related: Purchase::class);
+        return $this->hasMany(Customer::class);
     }
 
-    public function purchaseCart(): BelongsToMany
+    public function orders()
     {
-        return $this->belongsToMany(related: Product::class, table: 'user_purchase_cart')
-            ->withPivot(['quantity', 'purchase_price'])
-            ->withTimestamps();
+        return $this->hasMany(Order::class);
     }
 
-    public function getFullname(): string
+    public function payments()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->hasMany(Payment::class);
     }
 
-    public function getAvatar(): string
+    public function purchaseCarts()
     {
-        return 'https://www.gravatar.com/avatar/' . md5($this->email);
+        return $this->hasMany(PurchaseCart::class);
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(UserCart::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function purchaseCartItems()
+    {
+        return $this->hasMany(UserPurchaseCart::class);
     }
 }

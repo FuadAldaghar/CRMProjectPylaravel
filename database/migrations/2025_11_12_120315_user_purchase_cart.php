@@ -9,20 +9,34 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+//     public function up(): void
+//     {
+//         Schema::create('user_purchase_cart', function (Blueprint $table): void {
+//             $table->id();
+//             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+//             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+//             $table->integer('quantity')->default(1);
+//             $table->decimal('purchase_price', 10, 2)->default(0);
+//             $table->timestamps();
+// 
+//             $table->unique(['user_id', 'product_id']);
+//         });
+//     }
+
     public function up(): void
-    {
-        Schema::create('user_purchase_cart', function (Blueprint $table): void {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+{
+    Schema::create('user_purchase_cart', function (Blueprint $table) {
+        $table->id();
+
+     $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->integer('quantity')->default(1);
+      $table->integer('quantity')->default(1);
             $table->decimal('purchase_price', 10, 2)->default(0);
             $table->timestamps();
 
             $table->unique(['user_id', 'product_id']);
-        });
-    }
-
+    });
+}
     /**
      * Reverse the migrations.
      */

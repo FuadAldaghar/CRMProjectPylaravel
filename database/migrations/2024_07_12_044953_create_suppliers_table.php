@@ -9,19 +9,36 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('suppliers', function (Blueprint $table): void {
-            $table->id();
-            $table->string('first_name', 20);
-            $table->string('last_name', 20);
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('address')->nullable();
+    // public function up(): void
+    // {
+    //     Schema::create('suppliers', function (Blueprint $table): void {
+    //         $table->id();
+    //         $table->string('first_name', 20);
+    //         $table->string('last_name', 20);
+    //         $table->string('email')->nullable();
+    //         $table->string('phone')->nullable();
+    //         $table->string('address')->nullable();
+    //         $table->string('avatar')->nullable();
+    //         $table->timestamps();
+    //     });
+    // }
+
+public function up(): void
+{
+    Schema::create('suppliers', function (Blueprint $table) {
+      $table->id();
+      $table->string('first_name', 20);
+      $table->string('last_name', 20);
+      $table->string('phone')->nullable();
+      $table->string('email')->nullable();
+        $table->text('address')->nullable();
             $table->string('avatar')->nullable();
-            $table->timestamps();
-        });
-    }
+        $table->timestamps();
+    });
+}
+
+
+
 
     /**
      * Reverse the migrations.

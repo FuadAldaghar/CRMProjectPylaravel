@@ -46,37 +46,86 @@ use Illuminate\Support\Facades\Storage;
  * @method static Builder<static>|Product whereUpdatedAt($value)
  * @mixin \Eloquent
  */
+
+
+// app/Models/Product.php
+
 class Product extends Model
 {
-    use HasFactory;
-    use ProductScopes;
-
     protected $fillable = [
+        'branch_id',
         'name',
+        'barcode',
         'description',
         'image',
-        'barcode',
-        'price',
+        'purchase_price',
+        'selling_price',
         'quantity',
-        'status'
+        'status',
     ];
 
-    protected $casts = [
-        'price' => 'decimal:2',
-        'quantity' => 'integer',
-        'status' => 'boolean',
-    ];
-
-    protected $appends = ['image_url'];
-    /**
-     * Get the product image URL.
-     */
-    public function getImageUrlAttribute(): string
+    public function branch()
     {
-        if ($this->image) {
-            return Storage::disk('public')->url($this->image);
-        }
+        return $this->belongsTo(Branch::class);
+    }
 
-        return asset('images/img-placeholder.jpg');
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function purchaseItems()
+    {
+        return $this->hasMany(PurchaseItem::class);
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(UserCart::class);
+    }
+
+    public function purchaseCarts()
+    {
+        return $this->hasMany(PurchaseCart::class);
+    }
+
+    public function userPurchaseCarts()
+    {
+        return $this->hasMany(UserPurchaseCart::class);
     }
 }
+// class Product extends Model
+// {
+//     use HasFactory;
+//     use ProductScopes;
+// 
+//     protected $fillable = [
+//         'name',
+//         'description',
+//         'image',
+//         'barcode',
+//         'price',
+//         'quantity',
+//         'status'
+//     ];
+// 
+//     protected $casts = [
+//         'price' => 'decimal:2',
+//         'quantity' => 'integer',
+//         'status' => 'boolean',
+//     ];
+// 
+//     protected $appends = ['image_url'];
+//     /**
+//      * Get the product image URL.
+//      */
+//     public function getImageUrlAttribute(): string
+//     {
+//         if ($this->image) {
+//             return Storage::disk('public')->url($this->image);
+//         }
+// 
+//         return asset('images/img-placeholder.jpg');
+//     }
+// }
+

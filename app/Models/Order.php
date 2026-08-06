@@ -37,122 +37,157 @@ use Illuminate\Support\Carbon;
  */
 class Order extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
+        'branch_id',
         'customer_id',
-        'user_id'
+        'user_id',
+        'total',
     ];
 
-    /**
-     * Get the order items.
-     */
-    public function items(): HasMany
+    public function branch()
     {
-        return $this->hasMany(OrderItem::class, 'order_id', 'id');
+        return $this->belongsTo(Branch::class);
     }
 
-    /**
-     * Get the order payments.
-     */
-    public function payments(): HasMany
+    public function customer()
     {
-        return $this->hasMany(Payment::class, 'order_id', 'id');
+        return $this->belongsTo(Customer::class);
     }
 
-    /**
-     * Get the customer.
-     */
-    public function customer(): BelongsTo
+    public function user()
     {
-        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+        return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the user who created the order.
-     */
-    public function user(): BelongsTo
+    public function items()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->hasMany(OrderItem::class);
     }
 
-    /**
-     * Get customer name or default text.
-     */
-    public function getCustomerName(): string
+    public function payment()
     {
-        return $this->customer
-            ? "{$this->customer->first_name} {$this->customer->last_name}"
-            : __('walk_in');
-    }
-
-    /**
-     * Calculate order total.
-     */
-    public function total(): float
-    {
-        if ($this->relationLoaded('items')) {
-            return (float) $this->items->sum('price');
-        }
-        return (float) $this->items()->sum('price');
-    }
-
-    /**
-     * Get formatted total.
-     */
-    public function formattedTotal(): string
-    {
-        return number_format($this->total(), 2);
-    }
-
-    /**
-     * Calculate received amount from payments.
-     */
-    public function receivedAmount(): float
-    {
-        if ($this->relationLoaded('payments')) {
-            return (float) $this->payments->sum(fn($payment): float => (float) $payment->amount);
-        }
-        return (float) $this->payments()->sum('amount');
-    }
-
-    /**
-     * Get formatted received amount.
-     */
-    public function formattedReceivedAmount(): string
-    {
-        return number_format($this->receivedAmount(), 2);
-    }
-
-    /**
-     * Calculate remaining balance.
-     */
-    public function remainingBalance(): float
-    {
-        return $this->total() - $this->receivedAmount();
-    }
-
-    /**
-     * Check if order is fully paid.
-     */
-    public function isFullyPaid(): bool
-    {
-        return $this->receivedAmount() >= $this->total();
-    }
-
-    /**
-     * Scope for orders with a specific customer.
-     */
-    public function scopeByCustomer($query, $customerId)
-    {
-        return $query->where('customer_id', $customerId);
-    }
-
-    /**
-     * Scope for orders by date range.
-     */
-    public function scopeDateRange($query, $startDate, string $endDate)
-    {
-        return $query->whereBetween('created_at', [$startDate, $endDate . ' 23:59:59']);
+        return $this->hasOne(Payment::class);
     }
 }
+
+// class Order extends Model
+// {
+//     use HasFactory;
+// 
+//     protected $fillable = [
+//         'customer_id',
+//         'user_id'
+//     ];
+// 
+//     /**
+//      * Get the order items.
+//      */
+//     public function items(): HasMany
+//     {
+//         return $this->hasMany(OrderItem::class, 'order_id', 'id');
+//     }
+// 
+//     /**
+//      * Get the order payments.
+//      */
+//     public function payments(): HasMany
+//     {
+//         return $this->hasMany(Payment::class, 'order_id', 'id');
+//     }
+// 
+//     /**
+//      * Get the customer.
+//      */
+//     public function customer(): BelongsTo
+//     {
+//         return $this->belongsTo(Customer::class, 'customer_id', 'id');
+//     }
+// 
+//     /**
+//      * Get the user who created the order.
+//      */
+//     public function user(): BelongsTo
+//     {
+//         return $this->belongsTo(User::class, 'user_id', 'id');
+//     }
+// 
+//     /**
+//      * Get customer name or default text.
+//      */
+//     public function getCustomerName(): string
+//     {
+//         return $this->customer
+//             ? "{$this->customer->first_name} {$this->customer->last_name}"
+//             : __('walk_in');
+//     }
+// 
+//     /**
+//      * Calculate order total.
+//      */
+//     public function total(): float
+//     {
+//         if ($this->relationLoaded('items')) {
+//             return (float) $this->items->sum('price');
+//         }
+//         return (float) $this->items()->sum('price');
+//     }
+// 
+//     /**
+//      * Get formatted total.
+//      */
+//     public function formattedTotal(): string
+//     {
+//         return number_format($this->total(), 2);
+//     }
+// 
+//     /**
+//      * Calculate received amount from payments.
+//      */
+//     public function receivedAmount(): float
+//     {
+//         if ($this->relationLoaded('payments')) {
+//             return (float) $this->payments->sum(fn($payment): float => (float) $payment->amount);
+//         }
+//         return (float) $this->payments()->sum('amount');
+//     }
+// 
+//     /**
+//      * Get formatted received amount.
+//      */
+//     public function formattedReceivedAmount(): string
+//     {
+//         return number_format($this->receivedAmount(), 2);
+//     }
+// 
+//     /**
+//      * Calculate remaining balance.
+//      */
+//     public function remainingBalance(): float
+//     {
+//         return $this->total() - $this->receivedAmount();
+//     }
+// 
+//     /**
+//      * Check if order is fully paid.
+//      */
+//     public function isFullyPaid(): bool
+//     {
+//         return $this->receivedAmount() >= $this->total();
+//     }
+// 
+//     /**
+//      * Scope for orders with a specific customer.
+//      */
+//     public function scopeByCustomer($query, $customerId)
+//     {
+//         return $query->where('customer_id', $customerId);
+//     }
+// 
+//     /**
+//      * Scope for orders by date range.
+//      */
+//     public function scopeDateRange($query, $startDate, string $endDate)
+//     {
+//         return $query->whereBetween('created_at', [$startDate, $endDate . ' 23:59:59']);
+//     }
+// }

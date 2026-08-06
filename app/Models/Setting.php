@@ -22,9 +22,17 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Setting whereValue($value)
  * @mixin \Eloquent
  */
+// app/Models/Setting.php
 class Setting extends Model
 {
     protected $fillable = [
-        'key', 'value'
+        'key',
+        'value',
     ];
 }
+// class Setting extends Model
+// {
+//     protected $fillable = [
+//         'key', 'value'
+//     ];
+// }

@@ -18,7 +18,18 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
+// public function up(): void
+// {
+//     Schema::create('settings', function (Blueprint $table) {
+//         $table->id();
+// 
+//         $table->string('company_name');
+//         $table->string('currency');
+//         $table->string('logo')->nullable();
+// 
+//         $table->timestamps();
+//     });
+// }
     /**
      * Reverse the migrations.
      */

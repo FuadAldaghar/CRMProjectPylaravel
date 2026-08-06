@@ -9,18 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('orders', function (Blueprint $table): void {
-            $table->id();
-            $table->foreignId('customer_id')->nullable();
-            $table->foreignId('user_id');
-            $table->timestamps();
+public function up(): void
+{
+    Schema::create('orders', function (Blueprint $table) {
+        $table->id();
 
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        });
-    }
+        $table->foreignId('branch_id')->constrained();
+        $table->foreignId('customer_id')->constrained();
+        $table->foreignId('user_id')->constrained();
+
+        $table->decimal('total',10,2);
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
