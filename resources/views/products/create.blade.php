@@ -5,19 +5,21 @@
 
 @section('content')
 
-<form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+<form  action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data"
+ dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr'  }}">
 
 @csrf
 
 
-{{-- Select Branch --}}
-<div class="form-group">
-    <label for="branch_id">Branch</label>
+
+     
+<div class="form-group" >
+    <label for="branch_id">{{__('product.Select_Branch') }} </label>
 
     <select name="branch_id" id="branch_id" class="form-control @error('branch_id') is-invalid @enderror">
 
-        <option value="">Select Branch</option>
-
+        <!-- <option value=""> {{__('product.Select_Branch') }}</option> -->
+    
         @foreach($branches as $branch)
 
             <option value="{{ $branch->id }}"
@@ -39,10 +41,10 @@
 
 
 
-{{-- Product Name --}}
+
 <div class="form-group">
 
-    <label for="name">Product Name</label>
+    <label for="name">{{ __('product.Select_Branch') }}</label>
 
     <input type="text"
            name="name"
@@ -60,10 +62,12 @@
 
 
 
-{{-- Description --}}
+
+
+ 
 <div class="form-group">
 
-    <label for="description">Description</label>
+    <label for="description">{{__('product.Description') }}</label>
 
     <textarea name="description"
               id="description"
@@ -79,10 +83,10 @@
 
 
 
-{{-- Image --}}
+
 <div class="form-group">
 
-    <label for="image">Image</label>
+    <label for="image">{{ __('product.Image') }}</label>
 
     <input type="file"
            name="image"
@@ -99,10 +103,10 @@
 
 
 
-{{-- Barcode --}}
+
 <div class="form-group">
 
-    <label for="barcode">Barcode</label>
+    <label for="barcode">{{ __('product.Barcode') }}</label>
 
     <input type="text"
            name="barcode"
@@ -120,10 +124,10 @@
 
 
 
-{{-- Purchase Price --}}
+
 <div class="form-group">
 
-    <label for="purchase_price">Purchase Price</label>
+    <label for="purchase_price">{{ __('product.Purchase_Price') }}</label>
 
     <input type="number"
            step="0.01"
@@ -142,10 +146,10 @@
 
 
 
-{{-- Selling Price --}}
+
 <div class="form-group">
 
-    <label for="selling_price">Selling Price</label>
+    <label for="selling_price">{{ __('product.Selling_Price') }}</label>
 
     <input type="number"
            step="0.01"
@@ -164,10 +168,9 @@
 
 
 
-{{-- Quantity --}}
 <div class="form-group">
 
-    <label for="quantity">Quantity</label>
+    <label for="quantity">{{ __('product.Quantity') }}</label>
 
     <input type="number"
            name="quantity"
@@ -185,10 +188,10 @@
 
 
 
-{{-- Status --}}
+
 <div class="form-group">
 
-    <label for="status">Status</label>
+    <label for="status">{{ __('product.Status') }}</label>
 
     <select name="status"
             id="status"
@@ -215,7 +218,7 @@
 
 
 <button type="submit" class="btn btn-primary">
-    Create
+    {{ __('product.Create_Product') }}
 </button>
 
 

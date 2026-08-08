@@ -14,3 +14,40 @@ body {
     margin-right: 250px;
     margin-left: 0;
 }
+
+/* اللغه */
+/* form[dir="rtl"] {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+form[dir="rtl"] *,
+form[dir="rtl"] label,
+form[dir="rtl"] div,
+form[dir="rtl"] p,
+form[dir="rtl"] span,
+form[dir="rtl"] input,
+form[dir="rtl"] textarea,
+form[dir="rtl"] select,
+form[dir="rtl"] button {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+form[dir="ltr"] {
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+form[dir="ltr"] *,
+form[dir="ltr"] label,
+form[dir="ltr"] div,
+form[dir="ltr"] p,
+form[dir="ltr"] span,
+form[dir="ltr"] input,
+form[dir="ltr"] textarea,
+form[dir="ltr"] select,
+form[dir="ltr"] button {
+    direction: ltr !important;
+    text-align: left !important;
+} */

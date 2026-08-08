@@ -43,7 +43,7 @@ class Purchase extends Component {
     }
 
     componentDidMount() {
-        console.log("🔥 NEW PURCHASE CODE IS RUNNING");
+       // console.log("🔥 NEW PURCHASE CODE IS RUNNING");
         this.loadTranslations();
         this.loadSuppliers();
         this.loadBranches();

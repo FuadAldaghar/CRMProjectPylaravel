@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Storage;
  * @property string|null $description
  * @property string|null $image
  * @property string $barcode
- * @property numeric $price
- * @property string|null $purchase_price
+ * @property string $selling_price
+ * @property string $purchase_price
  * @property int $quantity
  * @property bool $status
  * @property Carbon|null $created_at
