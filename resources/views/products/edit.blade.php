@@ -12,6 +12,27 @@
             @csrf
             @method('PUT')
 
+<!-- edit branch -->
+            <div class="form-group">
+                <label for="branch_id">{{ __('product.Branch') }}</label>
+                <select name="branch_id" class="form-control @error('branch_id') is-invalid @enderror" id="branch_id">
+                    <option value="">{{ __('product.Select_Branch') }}</option>
+                    @foreach($branches as $branch)
+                        <option value="{{ $branch->id }}" {{ old('branch_id', $product->branch_id) == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
+                    @endforeach
+                </select>
+                @error('branch_id')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+
+
+
+
+
+
             <div class="form-group">
                 <label for="name">{{ __('product.Name') }}</label>
                 <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name"
@@ -61,10 +82,20 @@
             </div>
 
             <div class="form-group">
-                <label for="price">{{ __('product.Price') }}</label>
-                <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" id="price"
-                    placeholder="{{ __('product.Price') }}" value="{{ old('price', $product->price) }}">
-                @error('price')
+                <label for="purchase_price">{{ __('product.Purchase_Price') }}</label>
+                <input type="text" name="purchase_price" class="form-control @error('purchase_price') is-invalid @enderror" id="purchase_price"
+                    placeholder="{{ __('product.Purchase_Price') }}" value="{{ old('purchase_price', $product->purchase_price) }}">
+                @error('purchase_price')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+                <div class="form-group">
+                <label for="selling_price">{{ __('product.Sale_Price') }}</label>
+                <input type="text" name="selling_price" class="form-control @error('selling_price') is-invalid @enderror" id="selling_price"
+                    placeholder="{{ __('product.Sale_Price') }}" value="{{ old('selling_price', $product->selling_price) }}">
+                @error('selling_price')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>

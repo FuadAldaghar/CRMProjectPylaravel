@@ -23,6 +23,7 @@ class PurchaseStoreRequest extends FormRequest
     {
         return [
             'supplier_id' => 'required|exists:suppliers,id',
+            'branch_id' => 'required|exists:branches,id',
             'purchase_date' => 'required|date',
             'total_amount' => 'required|numeric|min:0',
             'status' => 'required|in:pending,completed,cancelled',

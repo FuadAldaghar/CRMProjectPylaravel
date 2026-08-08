@@ -83,6 +83,9 @@ class PurchaseController extends Controller
                 'notes' => $request->notes,
             ]);
 
+
+       
+
             // Create purchase items
             foreach ($request->items as $item) {
                 $purchase->items()->create([

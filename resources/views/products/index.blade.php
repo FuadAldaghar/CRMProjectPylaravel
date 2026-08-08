@@ -14,11 +14,12 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>{{ __('product.ID') }}</th>
+                    <!-- <th>{{ __('product.ID') }}</th> -->
                     <th>{{ __('product.Name') }}</th>
                     <th>{{ __('product.Image') }}</th>
                     <th>{{ __('product.Barcode') }}</th>
-                    <th>{{ __('product.Price') }}</th>
+                    <th>{{ __('product.Purchase_Price') }}</th>
+                    <!-- <th>{{ __('product.Selling_Price') }}</th> -->
                     <th>{{ __('product.Quantity') }}</th>
                     <th>{{ __('product.Status') }}</th>
                     <th>{{ __('product.Created_At') }}</th>
@@ -29,11 +30,12 @@
             <tbody>
                 @foreach ($products as $product)
                 <tr>
-qqa                 <td>{{$product->id}}</td>
+                <!-- <td>{{$product->id}}</td> -->
                     <td>{{$product->name}}</td>
                     <td><img class="product-img" src="{{ Storage::url($product->image) }}" alt=""></td>
                     <td>{{$product->barcode}}</td>
-                    <td>{{$product->price}}</td>
+                    <td>{{$product->purchase_price}}</td>
+                    <!-- <td>{{$product->selling_price}}</td> -->
                     <td>{{$product->quantity}}</td>
                     <td>
                         <span class="right badge badge-{{ $product->status ? 'success' : 'danger' }}">{{$product->status ? __('common.Active') : __('common.Inactive') }}</span>

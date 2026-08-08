@@ -53,7 +53,6 @@ use Illuminate\Support\Carbon;
 class User extends Authenticatable
 {
     use HasFactory;
-
     protected $fillable = [
         'branch_id',
         'first_name',
@@ -66,7 +65,10 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+public function getFullname()
+{
+    return $this->first_name . ' ' . $this->last_name;
+}
     public function branch()
     {
         return $this->belongsTo(Branch::class);

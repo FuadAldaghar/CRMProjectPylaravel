@@ -10,9 +10,11 @@ class Purchase extends Component {
         this.state = {
             cart: [],
             products: [],
+              branches: [],
             suppliers: [],
             search: "",
             supplier_id: "",
+            branch_id: "",
             purchase_date: new Date().toISOString().split('T')[0],
             status: "completed",
             notes: "",
@@ -22,6 +24,8 @@ class Purchase extends Component {
         this.loadCart = this.loadCart.bind(this);
         this.loadProducts = this.loadProducts.bind(this);
         this.loadSuppliers = this.loadSuppliers.bind(this);
+        this.loadBranches = this.loadBranches.bind(this);
+
         this.handleChangeSearch = this.handleChangeSearch.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.addProductToCart = this.addProductToCart.bind(this);
@@ -30,6 +34,7 @@ class Purchase extends Component {
         this.handleClickDelete = this.handleClickDelete.bind(this);
         this.handleEmptyCart = this.handleEmptyCart.bind(this);
         this.setSupplierId = this.setSupplierId.bind(this);
+        this.setBranchId = this.setBranchId.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleStatusChange = this.handleStatusChange.bind(this);
         this.handleNotesChange = this.handleNotesChange.bind(this);
@@ -38,8 +43,10 @@ class Purchase extends Component {
     }
 
     componentDidMount() {
+        console.log("🔥 NEW PURCHASE CODE IS RUNNING");
         this.loadTranslations();
         this.loadSuppliers();
+        this.loadBranches();
         this.loadProducts();
         this.loadCart();
     }
@@ -78,6 +85,39 @@ class Purchase extends Component {
             this.setState({ suppliers: [] });
         });
     }
+// load branches
+loadBranches() {
+
+    axios.get(`/admin/branches`, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then((res) => {
+
+        const branches = Array.isArray(res.data)
+            ? res.data
+            : (res.data.data || []);
+
+        this.setState({ branches });
+
+    })
+    .catch((error) => {
+
+        console.error("Error loading branches:", error);
+
+        this.setState({
+            branches: []
+        });
+
+    });
+
+}
+// end load branches
+
+
+
 
     loadProducts(search = "") {
         const query = !!search ? `?search=${search}` : "";
@@ -231,6 +271,10 @@ class Purchase extends Component {
         this.setState({ supplier_id: event.target.value });
     }
 
+    setBranchId(event) {
+        this.setState({branch_id: event.target.value});
+    }
+
     handleDateChange(event) {
         this.setState({ purchase_date: event.target.value });
     }
@@ -244,13 +288,16 @@ class Purchase extends Component {
     }
 
     handleClickSubmit() {
-        const { supplier_id, purchase_date, status, notes, cart, suppliers } = this.state;
+        const { supplier_id,   branch_id, purchase_date, status, notes, cart, suppliers } = this.state;
 
         // Validation
         if (!supplier_id) {
             Swal.fire("Error!", "Please select a supplier", "error");
             return;
         }
+        if (!branch_id) {
+    Swal.fire("Error!", "Please select a branch", "error");
+    return;}
 
         if (cart.length === 0) {
             Swal.fire("Error!", "Please add at least one product", "error");
@@ -287,6 +334,7 @@ class Purchase extends Component {
                 return axios
                     .post("/admin/purchases", {
                         supplier_id,
+                        branch_id,
                         purchase_date,
                         total_amount,
                         status,
@@ -308,7 +356,8 @@ class Purchase extends Component {
                 // Clear form
                 this.setState({
                     cart: [],
-                    supplier_id: "",
+                   supplier_id : "",
+                   branch_id: "",
                     purchase_date: new Date().toISOString().split('T')[0],
                     status: "completed",
                     notes: ""
@@ -316,14 +365,19 @@ class Purchase extends Component {
             }
         });
     }
+////////////////////////////////////////search purchase by name 
 
-    render() {
+    
+
+render() {
         const {
             cart = [],
             products = [],
+            branches = [],
             suppliers = [],
             search = "",
             supplier_id,
+            branch_id,
             purchase_date,
             status,
             notes,
@@ -376,7 +430,7 @@ class Purchase extends Component {
                         <div className="card card-primary card-outline">
                             <div className="card-header">
                                 <h3 className="card-title">
-                                    <i className="fas fa-truck mr-2"></i>Purchase Information
+                                    <i className="fas fa-truck mr-2"></i>Purchase---- Information
                                 </h3>
                             </div>
                             <div className="card-body">
@@ -387,7 +441,7 @@ class Purchase extends Component {
                                         value={supplier_id}
                                         onChange={this.setSupplierId}
                                     >
-                                        <option value="">Select Supplier</option>
+                                        <option value="">Select----- Supplier</option>
                                         {suppliersList.map((sup) => (
                                             <option
                                                 key={sup.id}
@@ -395,7 +449,39 @@ class Purchase extends Component {
                                             >{`${sup.first_name} ${sup.last_name}`}</option>
                                         ))}
                                     </select>
+                                    
+                                    {/* choose branch */}
+                                    
+                                    {/* ------------ */}
                                 </div>
+                                <div className="form-group mt-3">
+
+    <label>
+        Branch <span className="text-danger">*</span>
+    </label>
+
+    <select
+        className="form-control"
+        value={branch_id}
+        onChange={this.setBranchId}
+    >
+
+        <option value="">
+            Select Branch
+        </option>
+
+        {branches.map((branch) => (
+            <option 
+                key={branch.id}
+                value={branch.id}
+            >
+                {branch.name}
+            </option>
+        ))}
+
+    </select>
+
+</div>
                                 <div className="form-group">
                                     <label>Purchase Date <span className="text-danger">*</span></label>
                                     <input
@@ -578,7 +664,7 @@ class Purchase extends Component {
                                             <button
                                                 type="button"
                                                 className="btn btn-primary btn-block"
-                                                disabled={!supplier_id}
+                                               disabled={!supplier_id || !branch_id}
                                                 onClick={this.handleClickSubmit}
                                             >
                                                 <i className="fas fa-save mr-1"></i>Save

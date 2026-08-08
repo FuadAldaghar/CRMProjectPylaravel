@@ -13,22 +13,66 @@ class ProductUpdateRequest extends FormRequest
     }
 
     public function rules(): array
-    {
-        return [
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'max:2048'], // 2MB max
-            'barcode' => [
-                'required',
-                'string',
-                'max:50',
-                Rule::unique('products', 'barcode')->ignore($this->product)
-            ],
-            'price' => ['required', 'numeric', 'min:0', 'decimal:0,2'],
-            'quantity' => ['required', 'integer', 'min:0'],
-            'status' => ['required', 'boolean'],
-        ];
-    }
+{
+    return [
+        'branch_id' => ['required', 'exists:branches,id'],
+
+        'name' => ['required', 'string', 'max:255'],
+
+        'description' => ['nullable', 'string'],
+
+        'image' => ['nullable', 'image', 'max:2048'],
+
+        'barcode' => [
+            'required',
+            'string',
+            'max:50',
+            Rule::unique('products', 'barcode')->ignore($this->product),
+        ],
+
+        'purchase_price' => [
+            'required',
+            'numeric',
+            'min:0',
+            'decimal:0,2',
+        ],
+
+        'selling_price' => [
+            'required',
+            'numeric',
+            'min:0',
+            'decimal:0,2',
+        ],
+
+        'quantity' => [
+            'required',
+            'integer',
+            'min:0',
+        ],
+
+        'status' => [
+            'required',
+            'boolean',
+        ],
+    ];
+}
+    // public function rules(): array
+    // {
+    //     return [
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'description' => ['nullable', 'string'],
+    //         'image' => ['nullable', 'image', 'max:2048'], // 2MB max
+    //         'barcode' => [
+    //             'required',
+    //             'string',
+    //             'max:50',
+    //             Rule::unique('products', 'barcode')->ignore($this->product)
+    //         ],
+    //         'price' => ['required', 'numeric', 'min:0', 'decimal:0,2'],
+    //         'quantity' => ['required', 'integer', 'min:0'],
+    //         'status' => ['required', 'boolean'],
+    //     ];
+    // }
 
     public function messages(): array
     {

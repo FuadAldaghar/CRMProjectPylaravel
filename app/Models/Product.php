@@ -51,7 +51,7 @@ use Illuminate\Support\Facades\Storage;
 // app/Models/Product.php
 
 class Product extends Model
-{
+{ use HasFactory, ProductScopes;
     protected $fillable = [
         'branch_id',
         'name',

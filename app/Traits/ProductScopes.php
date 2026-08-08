@@ -91,10 +91,22 @@ trait ProductScopes
             ->limit(10);
     }
 
-    public function scopeSearch($query, $term)
+    // public function scopeSearch($query, $term)
+    // {
+    //     return $query->when($term, function ($query, $term): void {
+    //         $query->where('name', 'LIKE', "%{$term}%");
+    //     });
+    // }
+
+      public function scopeSearch($query, ?string $search = null)
     {
-        return $query->when($term, function ($query, $term): void {
-            $query->where('name', 'LIKE', "%{$term}%");
+        if (!$search) {
+            return $query;
+        }
+
+        return $query->where(function ($q) use ($search): void {
+            $q->where('name', 'like', "%{$search}%")
+                ->orWhere('barcode', 'like', "%{$search}%");
         });
     }
 }

@@ -14,7 +14,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>{{ __('ID') }}</th>
+                    <!-- <th>{{ __('ID') }}</th> -->
                     <!-- <th>{{ __('supplier.Avatar') }}</th> -->
                     <th>{{ __('First Name') }}</th>
                     <th>{{ __('Last Name') }}</th>
@@ -28,7 +28,7 @@
             <tbody>
                 @foreach ($suppliers as $supplier)
                 <tr>
-                    <td>{{$supplier->id}}</td>
+                    <!-- <td>{{$supplier->id}}</td> -->
                     {{-- <td>
                        <img width="50" src="{{$supplier->getAvatarUrl()}}" alt="">
                     </td> --}}
